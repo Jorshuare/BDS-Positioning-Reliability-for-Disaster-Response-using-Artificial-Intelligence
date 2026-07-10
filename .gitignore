@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# data (all — raw, interim, processed, external)
+data/
+
+# internal planning/tracking docs — not part of the public-facing repo
+PUBLISHABLE_PROJECT_REDRAFT.md
+CLAUDE.md
+next_step.md
+PROGRESS.md

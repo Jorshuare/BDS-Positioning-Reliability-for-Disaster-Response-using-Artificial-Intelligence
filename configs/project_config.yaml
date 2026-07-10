@@ -1,0 +1,11 @@
+# Project-wide decisions, referenced by pipeline code rather than hardcoded.
+# Extend this file as later stages add config (thresholds, model hyperparameters, seeds).
+
+mgex:
+  stations: [JFNG, URUM, HKWS]
+  days: ["2023344", "2023352"]  # JFNG/URUM have both; HKWS has 2023352 only
+  truth_coordinates: data/external/mgex_station_truth_coordinates.csv
+
+urbannav:
+  sequences: [tunnel_1, deep_urban_1]
+  receiver: ublox.m8t.GC  # chosen 2026-07-11: GPS+BeiDou-only module, robot-realistic hardware profile
