@@ -1,0 +1,8 @@
+dataset,n_epochs,pct_do_not_trust_2m,pct_do_not_trust_5m,pct_do_not_trust_10m
+mgex_HKWS_2023352,2880,70.3,54.1,14.9
+mgex_JFNG_2023344,2880,45.2,10.3,4.4
+mgex_JFNG_2023352,2880,73.6,11.1,1.8
+mgex_URUM_2023344,2880,62.7,15.6,3.8
+mgex_URUM_2023352,2880,52.5,19.1,4.1
+urbannav_deep_urban_1,1539,92.7,81.2,67.4
+urbannav_tunnel_1,401,91.5,74.3,63.3

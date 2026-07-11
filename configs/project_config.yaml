@@ -9,3 +9,32 @@ mgex:
 urbannav:
   sequences: [tunnel_1, deep_urban_1]
   receiver: ublox.m8t.GC  # chosen 2026-07-11: GPS+BeiDou-only module, robot-realistic hardware profile
+
+nav_product: BRDC  # IGS combined broadcast ephemeris only — BRDM deliberately excluded, see PROGRESS.md
+
+# Two evaluation modes (redraft PUBLISHABLE_PROJECT_REDRAFT.md §12.4). Both are
+# reported for every experiment; full_timeline is primary, solved_only is
+# supplementary. Defined here once so Stage 4/5 apply them identically rather
+# than each improvising a definition.
+evaluation:
+  full_timeline:
+    description: >
+      Every row in features_*.csv, including solution_exists=False rows.
+      Label = DO_NOT_TRUST if solution_exists is False OR error_h > T;
+      TRUST only if solution_exists is True AND error_h <= T. This is the
+      primary evaluation — it matches what the robot actually experiences
+      at every moment, including outages, and is the basis for the
+      "trust availability" metric.
+    is_primary: true
+  solved_only:
+    description: >
+      Restricted to rows where solution_exists is True. Label = TRUST if
+      error_h <= T else DO_NOT_TRUST; no-solution rows are excluded from
+      both label construction and metric computation entirely. Answers the
+      narrower question "given a fix was produced, was it trustworthy" —
+      isolates solution *quality* from solution *availability*. Reported as
+      a supplementary comparison, not the headline result. The
+      "trust availability" metric is not meaningful in this mode (it would
+      just restate the RTKLIB fix-rate already reported in Stage 2, not
+      anything the Stage 5 classifier controls).
+    is_primary: false

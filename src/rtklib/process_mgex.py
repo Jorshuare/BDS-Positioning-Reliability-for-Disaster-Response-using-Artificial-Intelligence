@@ -1,5 +1,13 @@
 """Drive BDS-only RTKLIB SPP processing for all available MGEX station-days.
 
+Uses exactly one broadcast navigation product per day: BRDC (the IGS combined
+multi-GNSS broadcast ephemeris). BRDM (DLR's own combined broadcast product)
+is available for the same days but deliberately not used — mixing two
+overlapping ephemeris sources for the same satellites with no documented
+selection rule is not a clean, reproducible experimental setup. BRDC is the
+standard, most widely cited choice, and it's the only product UrbanNav ever
+had anyway (single-source consistency across both domains).
+
 Run as a script: `python -m src.rtklib.process_mgex` from the repo root.
 """
 
@@ -15,6 +23,7 @@ RAW_NAV = ROOT / "data" / "raw" / "mgex" / "nav"
 INTERIM = ROOT / "data" / "interim"
 
 DAY_RE = re.compile(r"_(\d{4})(\d{3})\d{4}_01D")
+NAV_PRODUCT = "BRDC"
 
 
 def _day_key(filename):
@@ -29,10 +38,11 @@ def main():
         for obs_file in sorted((RAW_OBS / station).glob("*.crx.gz")):
             year, doy = _day_key(obs_file.name)
             nav_files = [
-                f for f in RAW_NAV.glob("*.rnx.gz") if _day_key(f.name) == (year, doy)
+                f for f in RAW_NAV.glob(f"{NAV_PRODUCT}*.rnx.gz")
+                if _day_key(f.name) == (year, doy)
             ]
             if not nav_files:
-                print(f"SKIP {station} {year}{doy}: no matching nav file")
+                print(f"SKIP {station} {year}{doy}: no matching {NAV_PRODUCT} nav file")
                 continue
 
             work_dir = INTERIM / station / f"{year}{doy}"
