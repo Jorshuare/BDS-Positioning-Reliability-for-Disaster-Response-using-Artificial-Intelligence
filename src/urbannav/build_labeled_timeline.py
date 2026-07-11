@@ -76,6 +76,7 @@ def build_timeline(sequence):
     for gt in gt_rows:
         rec = pos_records.get(gt["gps_dt"])
         row = {
+            "sequence": sequence,
             "gps_dt": gt["gps_dt"].isoformat(),
             "gt_lat": gt["lat"],
             "gt_lon": gt["lon"],
